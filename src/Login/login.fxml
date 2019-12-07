@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="background_login" fx:id="login_panel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" styleClass="background_login" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Login.Login_Controller">
+   <children>
+      <Button fx:id="btn_login" layoutX="125.0" layoutY="516.0" mnemonicParsing="false" onAction="#validateData" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #ffffff; -fx-border-radius: 30;" text="Iniciar Sesion" textFill="WHITE" />
+      <Label fx:id="lb_user" layoutX="50.0" layoutY="300.0" prefHeight="25.0" prefWidth="400.0" text="Correo:" textFill="WHITE" AnchorPane.leftAnchor="0.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <padding>
+            <Insets left="70.0" />
+         </padding>
+      </Label>
+      <TextField fx:id="txt_user" layoutX="80.0" layoutY="325.0" onAction="#validateData" prefHeight="30.0" prefWidth="240.0" promptText="Correo electronico" style="-fx-background-color: transparent; -fx-border-color: #ffffff; -fx-border-width: 0 0 1.5 0;" text="cverde22@gmail.com" AnchorPane.leftAnchor="80.0" />
+      <Label fx:id="lb_pass" layoutX="50.0" layoutY="363.0" prefHeight="25.0" prefWidth="400.0" text="Clave:" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="363.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <padding>
+            <Insets left="70.0" />
+         </padding>
+      </Label>
+      <PasswordField fx:id="txt_pass" accessibleRole="PASSWORD_FIELD" layoutX="80.0" layoutY="388.0" onAction="#validateData" prefHeight="30.0" prefWidth="240.0" promptText="Clave" style="-fx-background-color: transparent; -fx-border-color: #ffffff; -fx-border-width: 0 0 1.5 0;" text="123456" AnchorPane.leftAnchor="80.0" />
+      <Label fx:id="lb_test" layoutY="98.0" prefHeight="25.0" prefWidth="400.0" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <padding>
+            <Insets left="70.0" />
+         </padding>
+      </Label>
+      <Label fx:id="lb_error" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" layoutY="459.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="400.0" textAlignment="CENTER" textFill="#cd0000" wrapText="true">
+         <font>
+            <Font size="16.0" />
+         </font>
+         <padding>
+            <Insets left="70.0" />
+         </padding>
+      </Label>
+   </children>
+</AnchorPane>

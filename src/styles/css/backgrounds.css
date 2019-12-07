@@ -1,0 +1,38 @@
+#background_login{
+    -fx-background-color: linear-gradient(to top, #00aaeb, #3a60fc);
+}
+
+.btnFiles{
+    -fx-border-color: transparent;
+    -fx-padding: 5;
+    -fx-border-width: 0;
+    -fx-background-radius: 5;
+    -fx-background-color: transparent;
+    -fx-alignment: BOTTOM_CENTER;
+    -fx-font-family:"Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-font-size: 1em; /* 12 */
+    -fx-text-fill: black;
+}
+
+.btnFiles:hover{
+    -fx-background-color: #b6bab7;
+    -fx-padding: 5;
+    -fx-background-radius: 5;
+    -fx-wrap-text: true;
+
+}
+
+.btnFiles:focused {
+    -fx-border-color: transparent, #8c8f8d;
+    -fx-border-width: 1, 1;
+    -fx-border-style: solid, segments(1, 2);
+    -fx-border-radius: 5, 5;
+    -fx-border-insets: 1 1 1 1, 0;
+}
+
+.btnFiles:pressed {
+    -fx-background-color: #b6bab7;
+    -fx-padding: 5;
+    -fx-text-fill: black;
+    -fx-background-radius: 5;
+}
