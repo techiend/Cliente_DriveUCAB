@@ -26,11 +26,11 @@ public class Principal_Controller {
     @FXML private Label file_size;
     @FXML private Label file_lastmod;
     @FXML private AnchorPane menuPanel;
+    @FXML private Pane manage_pane;
     @FXML private Pane pn_0;
     @FXML private Pane pn_1;
     @FXML private Pane pn_2;
     @FXML private Pane edit_pane;
-    @FXML private Pane manage_pane;
     @FXML private GridPane mainPane;
     @FXML private Button btn_menu;
     @FXML private Button btn_opt2;
@@ -46,7 +46,6 @@ public class Principal_Controller {
     private String password = constantes.pass_ftp;
 
     private String file_name_selected = "";
-
     private int openPanel = 0;
     private boolean menuIsOpen = false;
 
@@ -59,6 +58,8 @@ public class Principal_Controller {
         btn_opt2.setDisable(true);
         btn_opt3.setDisable(true);
     }
+
+    // MANEJO DE MENU LATERAL
 
     public void animateMenuOpenClose(int value){
         final Timeline timeline = new Timeline();
@@ -346,6 +347,7 @@ public class Principal_Controller {
 
             }
         });
+
     }
 
     public void clearGridPane(){

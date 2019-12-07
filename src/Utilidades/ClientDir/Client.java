@@ -180,7 +180,7 @@ public class Client {
         try {
 
             SocketChannel socketChannel = (SocketChannel) key.channel();
-            ByteBuffer buffer = ByteBuffer.allocate(2048);
+            ByteBuffer buffer = ByteBuffer.allocate(12288);
 
             int sizeRead;
             sizeRead = socketChannel.read(buffer);
