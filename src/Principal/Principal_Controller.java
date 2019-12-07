@@ -325,6 +325,12 @@ public class Principal_Controller {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println("Pisaste raro");
+
+                if (menuIsOpen){
+                    animateMenuOpenClose(-200);
+                    menuIsOpen = false;
+                }
+
                 edit_pane.setVisible(false);
                 file_name_selected = "";
 
@@ -336,6 +342,8 @@ public class Principal_Controller {
 
                 file_lastmod.setText("N/A");
                 file_lastmod.wrapTextProperty().setValue(true);
+
+
             }
         });
     }
