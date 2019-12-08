@@ -21,24 +21,6 @@
       </Label>
       <Pane fx:id="pn_0" layoutY="44.0" prefHeight="554.0" prefWidth="912.0">
          <children>
-            <GridPane fx:id="mainPane" layoutX="27.0" layoutY="27.0" prefHeight="500.0" prefWidth="600.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-            </GridPane>
             <Separator layoutX="624.0" layoutY="27.0" orientation="VERTICAL" prefHeight="500.0" prefWidth="6.0" />
             <Label layoutX="641.0" layoutY="27.0" text="Nombre:">
                <font>
@@ -86,7 +68,7 @@
             </Pane>
             <Pane fx:id="manage_pane" layoutX="641.0" layoutY="406.0" maxHeight="118.0" maxWidth="240.0" minHeight="118.0" minWidth="240.0" prefHeight="118.0" prefWidth="240.0">
                <children>
-                  <Button fx:id="cargar_btn" layoutY="14.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="240.0" text="Cargar archivo">
+                  <Button fx:id="cargar_btn" layoutY="14.0" mnemonicParsing="false" onAction="#uploadFiles" prefHeight="40.0" prefWidth="240.0" text="Cargar archivo">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
@@ -98,6 +80,24 @@
                   </Button>
                </children>
             </Pane>
+            <GridPane fx:id="mainPane" layoutX="14.0" layoutY="24.0" maxHeight="1.7976931348623157E308" maxWidth="600.0" minHeight="500.0" minWidth="600.0" prefHeight="500.0" prefWidth="600.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
          </children>
       </Pane>
       <Pane fx:id="pn_21" layoutX="4.0" layoutY="1176.0" prefHeight="554.0" prefWidth="912.0" />
