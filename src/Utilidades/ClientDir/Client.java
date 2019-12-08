@@ -1,4 +1,5 @@
 package Utilidades.ClientDir;
+import Utilidades.Constantes;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -39,7 +40,8 @@ public class Client {
     }
 
     private static class NewSingletonHolder {
-        private static final Client INSTANCE = new Client("localhost", 23315);
+        private static Constantes constantes = Constantes.getInstance();
+        private static final Client INSTANCE = new Client(constantes.ip_server, constantes.port_server);
     }
 
     public void startClient () throws Exception
@@ -179,6 +181,7 @@ public class Client {
     {
         try {
 
+            Constantes constantes = Constantes.getInstance();
             SocketChannel socketChannel = (SocketChannel) key.channel();
             ByteBuffer buffer = ByteBuffer.allocate(12288);
 

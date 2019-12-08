@@ -13,12 +13,16 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.apache.commons.net.ftp.FTPClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.nio.ByteBuffer;
+import java.util.List;
 
 public class Principal_Controller {
 
@@ -32,13 +36,14 @@ public class Principal_Controller {
     @FXML private Pane pn_2;
     @FXML private Pane edit_pane;
     @FXML private GridPane mainPane;
+    @FXML private ScrollPane scrollgrid;
     @FXML private Button btn_menu;
     @FXML private Button btn_opt2;
     @FXML private Button btn_opt3;
     @FXML private Label lb_option;
     @FXML private Label lb_pwd;
 
-    private Constantes constantes = new Constantes();
+    private Constantes constantes = Constantes.getInstance();
 
     private FTPClient client = new FTPClient();
     private String ipServer = constantes.ip_server;
@@ -57,6 +62,7 @@ public class Principal_Controller {
         lb_pwd.setText(usuario.getPwd());
         btn_opt2.setDisable(true);
         btn_opt3.setDisable(true);
+
     }
 
     // MANEJO DE MENU LATERAL
@@ -160,10 +166,16 @@ public class Principal_Controller {
 
     public void addButton(JSONObject file, int fila, int col){
         final Button temp = new Button(file.getString("f_name"));
-        temp.setPrefWidth(80);//100
-        temp.setMaxWidth(80);
-        temp.setPrefHeight(80);//84
-        temp.setMaxHeight(80);
+        temp.setPrefWidth(84);//100
+        temp.setMaxWidth(84);
+        temp.setPrefHeight(84);//84
+        temp.setMaxHeight(84);
+        temp.minHeight(84);
+        temp.minWidth(84);
+
+        temp.setMaxSize(84,84);
+        temp.setMinSize(84,84);
+
         if (file.getBoolean("f_dir")){
 
             if (!file.getString("f_name").equals("..")) {
@@ -362,6 +374,28 @@ public class Principal_Controller {
             }
             mainPane.getChildren().clear();
             columna++;
+        }
+
+    }
+
+    // CRUD DE ARCHIVOS
+
+    public void uploadFiles(ActionEvent actionEvent){
+
+        Usuario usuario = Usuario.getInstance();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Selecciona tus archivos...");
+        Stage stage = (Stage) pn_0.getScene().getWindow();
+
+        List<File> fileSelected = fileChooser.showOpenMultipleDialog(stage);
+
+        for (File file : fileSelected) {
+
+            System.out.println(file.getPath());
+
+            FTPConn ftpConn = FTPConn.getInstance();
+            System.out.println(ftpConn.uploadFTP(usuario.getPwd(), file.getPath()).toString(1));
+
         }
 
     }
