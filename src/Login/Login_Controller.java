@@ -65,6 +65,8 @@ public class Login_Controller {
                     user.setPwd(respuesta.getString("u_pwd"));
                     user.setEmail(txt_user.getText().trim());
                     user.setFiles(respuesta.getJSONArray("files"));
+                    user.setMaxSpace(respuesta.getString("u_max"));
+                    user.setMaxSpaceNum(respuesta.getLong("u_max_num"));
 
                     ScreenController screenController = new ScreenController();
                     screenController.changeView(actionEvent, "Principal");

@@ -1,6 +1,9 @@
 package Utilidades;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.File;
 
 public class Usuario {
 
@@ -9,6 +12,8 @@ public class Usuario {
     private String email = "";
     private String pwd = "";
     private String curr_dir = "";
+    private String maxSpace = "2 GB";
+    private long maxSpaceNum = 2097152;
     private int id = 0;
     private JSONArray files = new JSONArray();
 
@@ -21,6 +26,22 @@ public class Usuario {
 
     private static class NewSingletonHolder{
         private static final Usuario INSTANCE = new Usuario();
+    }
+
+    public long getMaxSpaceNum() {
+        return maxSpaceNum;
+    }
+
+    public void setMaxSpaceNum(long maxSpaceNum) {
+        this.maxSpaceNum = maxSpaceNum;
+    }
+
+    public String getMaxSpace() {
+        return maxSpace;
+    }
+
+    public void setMaxSpace(String maxSpace) {
+        this.maxSpace = maxSpace;
     }
 
     public String getCurr_dir() {
@@ -77,5 +98,26 @@ public class Usuario {
 
     public void setFiles(JSONArray files) {
         this.files = files;
+    }
+
+    public JSONArray validateDuplicated(JSONArray files, JSONObject archivo){
+
+        boolean add = false;
+
+        for (int i=0; i < files.length(); i++){
+            JSONObject file = files.getJSONObject(i);
+
+            if (file.getString("f_name").equals(archivo.getString("f_name"))){
+                files.remove(i);
+                add = true;
+            }
+
+        }
+
+        if (add){
+            files.put(archivo);
+        }
+
+        return files;
     }
 }

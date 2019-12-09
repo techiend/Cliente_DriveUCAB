@@ -82,4 +82,14 @@ public class Alerts {
         return alert;
     }
 
+
+    public Alert loadingFTP(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Subiendo...");
+        alert.setHeaderText("cargando sus archivos al servidor...");
+        alert.getButtonTypes().clear();
+
+        return alert;
+    }
+
 }

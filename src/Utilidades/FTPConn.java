@@ -104,7 +104,7 @@ public class FTPConn {
                 else {
                     response.put("R", "1");
                     response.put("M", "Ocurrio un error al actualizar el archivo.");
-                                    }
+                }
 
 
                 return response;

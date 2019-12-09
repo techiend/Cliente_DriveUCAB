@@ -22,6 +22,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.nio.ByteBuffer;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class Principal_Controller {
@@ -62,7 +64,6 @@ public class Principal_Controller {
         lb_pwd.setText(usuario.getPwd());
         btn_opt2.setDisable(true);
         btn_opt3.setDisable(true);
-
     }
 
     // MANEJO DE MENU LATERAL
@@ -109,7 +110,7 @@ public class Principal_Controller {
             pn_1.setLayoutY(612);
             pn_0.setLayoutY(58);
             openPanel = 0;
-            lb_option.setText("Dashboard");
+            lb_option.setText("Drive UCAB");
 
             animateMenuOpenClose(-200);
             menuIsOpen = false;
@@ -118,7 +119,7 @@ public class Principal_Controller {
             pn_2.setLayoutY(612);
             pn_0.setLayoutY(58);
             openPanel = 0;
-            lb_option.setText("Dashboard");
+            lb_option.setText("Drive UCAB");
 
             animateMenuOpenClose(-200);
             menuIsOpen = false;
@@ -382,22 +383,103 @@ public class Principal_Controller {
 
     public void uploadFiles(ActionEvent actionEvent){
 
-        Usuario usuario = Usuario.getInstance();
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Selecciona tus archivos...");
-        Stage stage = (Stage) pn_0.getScene().getWindow();
+        try {
+            Usuario usuario = Usuario.getInstance();
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Selecciona tus archivos...");
+            Stage stage = (Stage) pn_0.getScene().getWindow();
 
-        List<File> fileSelected = fileChooser.showOpenMultipleDialog(stage);
+            JSONArray files = usuario.getFiles();
 
-        for (File file : fileSelected) {
+            Alerts alerta = new Alerts();
+            JSONObject infoAlert = new JSONObject();
 
-            System.out.println(file.getPath());
+            List<File> fileSelected = fileChooser.showOpenMultipleDialog(stage);
 
-            FTPConn ftpConn = FTPConn.getInstance();
-            System.out.println(ftpConn.uploadFTP(usuario.getPwd(), file.getPath()).toString(1));
+            long sumSize = 0;
+            for (File file : fileSelected) {
+                sumSize += file.length();
+            }
 
+            if (sumSize <= usuario.getMaxSpaceNum()) {
+                Thread cargaThread = new Thread() {
+
+                    public void run() {
+
+                        for (File file : fileSelected) {
+                            FTPConn ftpConn = FTPConn.getInstance();
+                            JSONObject responseFTP = ftpConn.uploadFTP(usuario.getPwd(), file.getPath());
+
+
+                            if (responseFTP.getString("R").equals("0")) {
+                                JSONObject archivo = new JSONObject();
+
+                                archivo.put("f_name", file.getName());
+                                archivo.put("f_size", manageSize(file.length()));
+                                archivo.put("f_dir", file.isDirectory());
+
+                                DateFormat dateFormater = new SimpleDateFormat("dd-MM-yyy HH:mm:ss a");
+                                archivo.put("f_lastMod", dateFormater.format(file.lastModified()));
+
+//                                files.put(archivo);
+                                usuario.validateDuplicated(files, archivo);
+                            } else {
+                                infoAlert.put("msg", responseFTP.getString("M") + " | " + file.getName());
+                                alerta.showAlert(infoAlert, "ERROR");
+                            }
+                        }
+
+                        usuario.setFiles(files);
+                    }
+                };
+
+                // La carga de los archivos se empezara a ejecutar en este hilo
+                cargaThread.start();
+
+                Alert alert = alerta.loadingFTP();
+                alert.show();
+
+
+                cargaThread.join();
+                alert.setResult(ButtonType.OK);
+
+                clearGridPane();
+                fillGridPane();
+            } else {
+
+                infoAlert.put("msg", "Espacio en la nube insuficiente.");
+                alerta.showAlert(infoAlert, "ERROR");
+            }
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    private String manageSize(long fileSize) {
+
+        String size = "";
+
+        long kb = 1024;
+        long mb = kb*1024;
+        long gb = mb*1024;
+
+        if (fileSize < kb) { // Es Bytes
+            size = Long.toString(fileSize) + " B";
+        }
+        if (fileSize >= kb && fileSize< mb){ // Es KiloBytes
+            size = Double.toString(fileSize/kb) + " KB";
+        }
+        if (fileSize >= mb && fileSize < gb){ // Es MegaBytes
+            size = Double.toString((double)(fileSize/kb)/kb) + " MB";
+        }
+        if (fileSize >= gb) { // Es GigaBytes
+            size = Double.toString((double)((fileSize/kb)/kb)/kb) + " GB";
         }
 
+        return size;
     }
 
 }
