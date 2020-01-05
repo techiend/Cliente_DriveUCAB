@@ -52,7 +52,7 @@ public class Login_Controller {
 
                 JSONObject respuesta = client.getResponse();
 
-                System.out.println(respuesta.toString(1));
+//                System.out.println(respuesta.toString(1));
                 client.respuesta = false;
 
                 if (respuesta.getString("R").equals("0")){
@@ -82,5 +82,15 @@ public class Login_Controller {
         } catch (SceneDontExist e) {
             e.printStackTrace();
         }
+    }
+
+    public void validateRegister(ActionEvent actionEvent){
+        try {
+            ScreenController screenController = new ScreenController();
+            screenController.changeView(actionEvent, "Registro");
+        } catch (SceneDontExist sceneDontExist) {
+            sceneDontExist.printStackTrace();
+        }
+
     }
 }

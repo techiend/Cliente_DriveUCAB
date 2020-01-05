@@ -34,6 +34,12 @@ public class ScreenController {
                     ventana.setTitle("Drive UCAB - " + scene);
                     scena.getStylesheets().add("styles/css/backgrounds.css");
                     break;
+                case "Registro":
+                    parent = FXMLLoader.load(getClass().getClassLoader().getResource("Registro/registro.fxml"));
+                    scena = new Scene(parent, 400, 600);
+                    ventana.setTitle("Drive UCAB - " + scene);
+                    scena.getStylesheets().add("styles/css/backgrounds.css");
+                    break;
                 default:
                     throw new SceneDontExist();
             }

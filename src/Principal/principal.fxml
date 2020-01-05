@@ -54,12 +54,12 @@
             </Label>
             <Pane fx:id="edit_pane" layoutX="641.0" layoutY="288.0" maxHeight="118.0" maxWidth="240.0" minHeight="118.0" minWidth="240.0" prefHeight="118.0" prefWidth="240.0">
                <children>
-                  <Button fx:id="descargar_btn" layoutY="14.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="240.0" text="Descargar">
+                  <Button fx:id="descargar_btn" layoutY="14.0" mnemonicParsing="false" onAction="#download" prefHeight="40.0" prefWidth="240.0" text="Descargar">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Button>
-                  <Button fx:id="delete_btn" layoutY="64.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="240.0" text="Eliminar">
+                  <Button fx:id="delete_btn" layoutY="64.0" mnemonicParsing="false" onAction="#eraseSomething" prefHeight="40.0" prefWidth="240.0" text="Eliminar">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
@@ -73,7 +73,7 @@
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Button>
-                  <Button fx:id="create_btn" layoutY="64.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="240.0" text="Crear directorio">
+                  <Button fx:id="create_btn" layoutY="64.0" mnemonicParsing="false" onAction="#createDir" prefHeight="40.0" prefWidth="240.0" text="Crear directorio">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>

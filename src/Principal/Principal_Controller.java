@@ -1,5 +1,6 @@
 package Principal;
 
+import PopUpText.PopUpText_Controller;
 import Utilidades.*;
 import Utilidades.ClientDir.Client;
 import Utilidades.Exceptions.SceneDontExist;
@@ -9,10 +10,15 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -21,6 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -42,6 +49,7 @@ public class Principal_Controller {
     @FXML private Button btn_menu;
     @FXML private Button btn_opt2;
     @FXML private Button btn_opt3;
+    @FXML private Button descargar_btn;
     @FXML private Label lb_option;
     @FXML private Label lb_pwd;
 
@@ -177,12 +185,71 @@ public class Principal_Controller {
         temp.setMaxSize(84,84);
         temp.setMinSize(84,84);
 
+
         if (file.getBoolean("f_dir")){
 
             if (!file.getString("f_name").equals("..")) {
+
+                temp.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        if (file_name_selected.equals("")) {
+                            file_name.setText(file.getString("f_name"));
+                            file_name.wrapTextProperty().setValue(true);
+
+                            file_size.setText(file.getString("f_size"));
+                            file_size.wrapTextProperty().setValue(true);
+
+                            file_lastmod.setText(file.getString("f_lastMod"));
+                            file_lastmod.wrapTextProperty().setValue(true);
+                        }
+                    }
+                });
+
+//                temp.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+//                    @Override
+//                    public void handle(MouseEvent event) {
+//                        if (file_name_selected.equals("")) {
+//                            file_name.setText("N/A");
+//                            file_name.wrapTextProperty().setValue(true);
+//
+//                            file_size.setText("0 B");
+//                            file_size.wrapTextProperty().setValue(true);
+//
+//                            file_lastmod.setText("N/A");
+//                            file_lastmod.wrapTextProperty().setValue(true);
+//                        }
+//                    }
+//                });
+
                 temp.setStyle("-fx-background-image: url('/styles/imgs/folder_32.png');" +
                         "-fx-background-position: center;" +
                         "-fx-background-repeat: no-repeat;");
+
+                temp.setOnMouseClicked(event ->
+                {
+                    if (event.getButton() == MouseButton.SECONDARY)
+                    {
+                        System.out.println("ME TOCASTE WEY");
+
+                        Usuario usuario = Usuario.getInstance();
+
+                        usuario.setTouched_pwd(usuario.getPwd() + file.getString("f_name") + "/");
+
+                        file_name.setText(file.getString("f_name"));
+                        file_name.wrapTextProperty().setValue(true);
+
+                        file_size.setText(file.getString("f_size"));
+                        file_size.wrapTextProperty().setValue(true);
+
+                        file_lastmod.setText(file.getString("f_lastMod"));
+                        file_lastmod.wrapTextProperty().setValue(true);
+
+                        descargar_btn.setDisable(true);
+                        edit_pane.setVisible(true);
+
+                    }
+                });
             }
             else {
                 temp.setStyle("-fx-background-image: url('/styles/imgs/undo_32.png');" +
@@ -240,6 +307,11 @@ public class Principal_Controller {
 
                 if (!file.getBoolean("f_dir")) {
 
+                    Usuario usuario = Usuario.getInstance();
+
+                    usuario.setTouched_pwd(usuario.getPwd() + file.getString("f_name"));
+                    usuario.setTouched_fname(file.getString("f_name"));
+
                     file_name.setText(file.getString("f_name"));
                     file_name.wrapTextProperty().setValue(true);
 
@@ -249,6 +321,8 @@ public class Principal_Controller {
                     file_lastmod.setText(file.getString("f_lastMod"));
                     file_lastmod.wrapTextProperty().setValue(true);
 
+
+                    descargar_btn.setDisable(false);
                     edit_pane.setVisible(true);
 
                     file_name_selected = file.getString("f_name");
@@ -256,6 +330,8 @@ public class Principal_Controller {
                 else{
 
                     // HACER LLAMADO A SERVIDOR, QUE TRAIGA DATA NUEVA
+
+                    edit_pane.setVisible(false);
 
                     Usuario user = Usuario.getInstance();
                     Client client = Client.getInstance();
@@ -311,7 +387,6 @@ public class Principal_Controller {
                     }
 
 
-
                 }
 
                 System.out.println(file_name_selected);
@@ -320,9 +395,12 @@ public class Principal_Controller {
         mainPane.add(temp, fila,col);
     }
 
+
     public void fillGridPane(){
         Usuario user = Usuario.getInstance();
         JSONArray files = user.getFiles();
+
+//        System.out.println("ARCHIVOS A LLENAR: " + files.toString(1));
 
         int fila = 0;
         int columna = 0;
@@ -385,11 +463,11 @@ public class Principal_Controller {
 
         try {
             Usuario usuario = Usuario.getInstance();
+//            JSONArray files = usuario.getFiles();
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Selecciona tus archivos...");
             Stage stage = (Stage) pn_0.getScene().getWindow();
 
-            JSONArray files = usuario.getFiles();
 
             Alerts alerta = new Alerts();
             JSONObject infoAlert = new JSONObject();
@@ -402,9 +480,14 @@ public class Principal_Controller {
             }
 
             if (sumSize <= usuario.getMaxSpaceNum()) {
+                final JSONArray[] archivitos = {new JSONArray()};
+
                 Thread cargaThread = new Thread() {
 
                     public void run() {
+
+                        Usuario usuario = Usuario.getInstance();
+                        JSONArray files = usuario.getFiles();
 
                         for (File file : fileSelected) {
                             FTPConn ftpConn = FTPConn.getInstance();
@@ -421,8 +504,30 @@ public class Principal_Controller {
                                 DateFormat dateFormater = new SimpleDateFormat("dd-MM-yyy HH:mm:ss a");
                                 archivo.put("f_lastMod", dateFormater.format(file.lastModified()));
 
-//                                files.put(archivo);
-                                usuario.validateDuplicated(files, archivo);
+//                                usuario.setFiles(usuario.validateDuplicated(files, archivo));
+//                                usuario.addFile(archivo);
+//
+//                                files = usuario.addFile(files, archivo);
+                                boolean add = false;
+                                System.out.println("Validando similares.");
+
+                                for (int i=0; i < files.length(); i++){
+                                    JSONObject filex = files.getJSONObject(i);
+
+                                    if (filex.getString("f_name").equals(archivo.getString("f_name"))){
+                                        files.remove(i);
+                                        files.put(archivo);
+                                        add = true;
+                                        System.out.println("archivo igual, actualizando");
+                                    }
+
+                                }
+
+                                if (!add){
+                                    files.put(archivo);
+                                }
+
+
                             } else {
                                 infoAlert.put("msg", responseFTP.getString("M") + " | " + file.getName());
                                 alerta.showAlert(infoAlert, "ERROR");
@@ -430,6 +535,8 @@ public class Principal_Controller {
                         }
 
                         usuario.setFiles(files);
+                        archivitos[0] = files;
+//                        System.out.println("Al terminar el hilo: "+usuario.getFiles().toString(1));
                     }
                 };
 
@@ -441,10 +548,13 @@ public class Principal_Controller {
 
 
                 cargaThread.join();
+                usuario = Usuario.getInstance();
+                Thread.sleep(2000);
                 alert.setResult(ButtonType.OK);
 
                 clearGridPane();
                 fillGridPane();
+
             } else {
 
                 infoAlert.put("msg", "Espacio en la nube insuficiente.");
@@ -456,7 +566,179 @@ public class Principal_Controller {
         }
     }
 
+    public void createDir(ActionEvent actionEvent){
 
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getClassLoader().getResource("PopUpText/popuptext.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent p = loader.getRoot();
+        Stage stage = new Stage();
+//        Stage stageP = (Stage) pn_0.getScene().getWindow();
+        Scene scene = new Scene(p);
+        scene.getStylesheets().add("styles/css/backgrounds.css");
+        stage.setScene(scene);
+        stage.showAndWait();
+
+        Usuario user = Usuario.getInstance();
+        Client client = Client.getInstance();
+
+        JSONObject enviar = new JSONObject();
+        enviar.put("acc", "list");
+        enviar.put("email", user.getEmail());
+        enviar.put("pwd", user.getPwd());
+
+        client.list.add(ByteBuffer.wrap(enviar.toString().getBytes()));
+        System.out.println("Envio un mensaje.");
+
+        Alerts alerta = new Alerts();
+        Alert alert = alerta.loading();
+        while (!client.isRespuesta()) {
+
+
+            //Muestro la alerta
+            alert.show();
+
+        }
+        alert.setResult(ButtonType.OK);
+
+
+        JSONObject respuesta = client.getResponse();
+
+        System.out.println(respuesta.toString(1));
+        client.respuesta = false;
+
+        if (respuesta.getString("R").equals("0")) {
+
+            user.setFiles(respuesta.getJSONArray("files"));
+
+            clearGridPane();
+            fillGridPane();
+
+        } else {
+            JSONObject infoAlert = new JSONObject();
+            infoAlert.put("msg", respuesta.getString("M"));
+            alerta.showAlert(infoAlert, "ERROR");
+        }
+
+
+    }
+
+    public void eraseSomething(ActionEvent actionEvent){
+
+
+        Usuario usuario = Usuario.getInstance();
+        Client client = Client.getInstance();
+
+        JSONObject enviar = new JSONObject();
+        enviar.put("acc", "erase");
+        enviar.put("email", usuario.getEmail());
+        enviar.put("pwd", usuario.getTouched_pwd());
+
+        client.list.add(ByteBuffer.wrap(enviar.toString().getBytes()));
+        System.out.println("Envio un mensaje.");
+
+        Alerts alerta = new Alerts();
+        Alert alert = alerta.loading();
+        while (!client.isRespuesta()) {
+
+
+            //Muestro la alerta
+            alert.show();
+
+        }
+        alert.setResult(ButtonType.OK);
+
+
+        JSONObject respuesta = client.getResponse();
+
+        System.out.println(respuesta.toString(1));
+        client.respuesta = false;
+
+        if (respuesta.getString("R").equals("0")) {
+
+
+            enviar = new JSONObject();
+            enviar.put("acc", "list");
+            enviar.put("email", usuario.getEmail());
+            enviar.put("pwd", usuario.getPwd());
+
+            client.list.add(ByteBuffer.wrap(enviar.toString().getBytes()));
+            System.out.println("Envio un mensaje.");
+
+            alerta = new Alerts();
+            alert = alerta.loading();
+            while (!client.isRespuesta()) {
+
+
+                //Muestro la alerta
+                alert.show();
+
+            }
+            alert.setResult(ButtonType.OK);
+
+
+            respuesta = client.getResponse();
+
+            System.out.println(respuesta.toString(1));
+            client.respuesta = false;
+
+            if (respuesta.getString("R").equals("0")) {
+
+                usuario.setFiles(respuesta.getJSONArray("files"));
+
+                clearGridPane();
+                fillGridPane();
+
+                edit_pane.setVisible(false);
+
+            } else {
+                JSONObject infoAlert = new JSONObject();
+                infoAlert.put("msg", respuesta.getString("M"));
+                alerta.showAlert(infoAlert, "ERROR");
+            }
+
+        } else {
+            JSONObject infoAlert = new JSONObject();
+            infoAlert.put("msg", respuesta.getString("M"));
+            alerta.showAlert(infoAlert, "ERROR");
+        }
+
+    }
+
+    public void download(ActionEvent actionEvent){
+        DirectoryChooser selectDir = new DirectoryChooser();
+        selectDir.setTitle("Selecciona tus archivos...");
+        Stage stage = (Stage) pn_0.getScene().getWindow();
+
+        File selected = selectDir.showDialog(stage);
+
+        if (selected != null) {
+            if (selected.isDirectory()) {
+                // DESCARGAR EL ARCHIVO A LA RUTA SELECCIONADA
+                Usuario usuario = Usuario.getInstance();
+
+                FTPConn ftpConn = FTPConn.getInstance();
+                JSONObject responseFTP = ftpConn.downloadFTP(usuario.getTouched_pwd(), selected.getPath(), usuario.getTouched_fname());
+
+
+                if (responseFTP.getString("R").equals("0")){
+                    System.out.println(responseFTP.getString("M"));
+                }
+                else {
+                    System.out.println(responseFTP.getString("M"));
+                }
+
+            }
+            else {
+                System.out.println("archivo");
+            }
+        }
+
+    }
 
     private String manageSize(long fileSize) {
 

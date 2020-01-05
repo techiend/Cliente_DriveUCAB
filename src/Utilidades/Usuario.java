@@ -11,6 +11,8 @@ public class Usuario {
     private String lname = "";
     private String email = "";
     private String pwd = "";
+    private String touched_pwd = "";
+    private String touched_fname = "";
     private String curr_dir = "";
     private String maxSpace = "2 GB";
     private long maxSpaceNum = 2097152;
@@ -26,6 +28,22 @@ public class Usuario {
 
     private static class NewSingletonHolder{
         private static final Usuario INSTANCE = new Usuario();
+    }
+
+    public String getTouched_fname() {
+        return touched_fname;
+    }
+
+    public void setTouched_fname(String touched_fname) {
+        this.touched_fname = touched_fname;
+    }
+
+    public String getTouched_pwd() {
+        return touched_pwd;
+    }
+
+    public void setTouched_pwd(String touched_pwd) {
+        this.touched_pwd = touched_pwd;
     }
 
     public long getMaxSpaceNum() {
@@ -103,13 +121,14 @@ public class Usuario {
     public JSONArray validateDuplicated(JSONArray files, JSONObject archivo){
 
         boolean add = false;
-
+        System.out.println("Validando similares.");
         for (int i=0; i < files.length(); i++){
             JSONObject file = files.getJSONObject(i);
 
             if (file.getString("f_name").equals(archivo.getString("f_name"))){
                 files.remove(i);
                 add = true;
+                System.out.println("archivo igual, actualizando");
             }
 
         }
@@ -119,5 +138,27 @@ public class Usuario {
         }
 
         return files;
+    }
+
+    public JSONArray addFile(JSONArray filex, JSONObject archivo){
+
+        boolean add = false;
+        System.out.println("Validando similares.");
+        for (int i=0; i < filex.length(); i++){
+            JSONObject file = filex.getJSONObject(i);
+
+            if (file.getString("f_name").equals(archivo.getString("f_name"))){
+                filex.remove(i);
+                add = true;
+                System.out.println("archivo igual, actualizando");
+            }
+
+        }
+
+        if (add){
+            filex.put(archivo);
+        }
+
+        return filex;
     }
 }

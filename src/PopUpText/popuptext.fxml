@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="background_login" fx:id="pn_text" prefHeight="150.0" prefWidth="400.0" styleClass="background_login" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PopUpText.PopUpText_Controller">
+   <children>
+      <Label fx:id="lb_nameDir" layoutX="15.0" layoutY="14.0" text="Nombre:">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txt_dir" layoutX="15.0" layoutY="46.0" onAction="#createDir" prefHeight="30.0" prefWidth="370.0" promptText="Nombre del directorio" style="-fx-background-color: transparent; -fx-border-color: #ffffff; -fx-border-width: 0 0 1.5 0;">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
+      <Button fx:id="btn_create_dir" layoutX="235.0" layoutY="106.0" mnemonicParsing="false" onAction="#createDir" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #ffffff; -fx-border-radius: 30;" text="Crear" textFill="WHITE" />
+   </children>
+</AnchorPane>

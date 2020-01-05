@@ -141,4 +141,94 @@ public class FTPConn {
         return response;
     }
 
+    public JSONObject downloadFTP(String remoteFileName, String localFileName, String name){
+        JSONObject response = new JSONObject();
+
+        try
+        {
+
+
+            String local = localFileName + "\\" + name;
+            String remote = constantes.dir_base +remoteFileName;
+//            String remote = remoteFileName;
+            System.out.println("remote: "+remote);
+            System.out.println("local: " +local);
+//
+//            client.enterLocalPassiveMode();
+//
+            File downloadFile = new File(local);
+//            OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(downloadFile));
+//            boolean success = client.retrieveFile(remote, outputStream);
+//            outputStream.close();
+//
+//            if (success) {
+//                response.put("R", "0");
+//                response.put("M", "Archivo descargado correctamente.");
+//            }
+//            else {
+//                response.put("R", "1");
+//                response.put("M", "Ocurrio un error al descargar el archivo.");
+//            }
+
+
+
+
+            OutputStream outputStream2 = new BufferedOutputStream(new FileOutputStream(downloadFile));
+            InputStream inputStream = client.retrieveFileStream(remote);
+            byte[] bytesArray = new byte[4096];
+            int bytesRead = -1;
+            while ((bytesRead = inputStream.read(bytesArray)) != -1) {
+                outputStream2.write(bytesArray, 0, bytesRead);
+            }
+
+            boolean success = client.completePendingCommand();
+            if (success) {
+                response.put("R", "0");
+                response.put("M", "Archivo descargado correctamente.");
+            }
+            else {
+                response.put("R", "1");
+                response.put("M", "Ocurrio un error al descargar el archivo.");
+            }
+
+            outputStream2.close();
+            inputStream.close();
+
+
+
+
+            return response;
+
+        }
+        catch (SocketException e){
+            e.printStackTrace();
+            System.out.println("IP inalcanzable. Por favor, verificar la IP del servidor.");
+
+            response.put("M", "IP inalcanzable. Por favor, verificar la IP del servidor.");
+        }
+        catch (SocketTimeoutException e){
+            e.printStackTrace();
+            System.out.println("Conexión TimeOut...");
+
+            response.put("M", "Conexión TimeOut...");
+        }
+        catch (NullPointerException e){
+            e.printStackTrace();
+            System.out.println("Archivo no existe.");
+
+            response.put("M", "Archivo no existe.");
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            System.out.println("Intento fallido al conectar con el servidor, trata nuevamente.");
+
+            response.put("M", "Intento fallido al conectar con el servidor, trata nuevamente.");
+        }
+
+        response.put("R", "1");
+
+        return response;
+    }
+
 }
