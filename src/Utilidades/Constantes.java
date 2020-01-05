@@ -4,7 +4,8 @@ import Utilidades.ClientDir.Client;
 
 public class Constantes {
 
-    public String ip_server = "24.63.57.111";
+    public String ip_server = "24.63.57.118";
+//    public String ip_server = "192.168.43.146";
     public int port_server = 23315;
     public String user_ftp = "cverde";
     public String pass_ftp = "24635783";

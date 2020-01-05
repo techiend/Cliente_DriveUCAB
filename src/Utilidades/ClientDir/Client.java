@@ -1,5 +1,6 @@
 package Utilidades.ClientDir;
 import Utilidades.Constantes;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -20,6 +21,7 @@ import java.util.Set;
 
 public class Client {
 
+    private String read = "";
     private Selector selector_client;
     private  int operations = SelectionKey.OP_CONNECT | SelectionKey.OP_READ | SelectionKey.OP_WRITE;
     public ArrayList<ByteBuffer> list = new ArrayList<>();
@@ -193,15 +195,33 @@ public class Client {
                 byte[] datarcv = new byte[sizeRead];
                 System.arraycopy(buffer.array(), 0, datarcv, 0, sizeRead);
 
-                JSONObject data = new JSONObject(new String(datarcv));
+//                System.out.println("[CLIENTE] recibe: " + new String(datarcv));
+                read += new String(datarcv, "UTF-8");
 
-//                System.out.println("[CLIENTE] recibe: " + data.toString(1));
+                try {
+
+                    JSONObject data = new JSONObject(read);
 
 //                 RESPUESTA SERVIDOR
-                this.setResponse(data);
-                this.respuesta = true;
+                    this.setResponse(data);
+                    this.respuesta = true;
+
+                    read = "";
+
+                }catch (JSONException e){
+//                    e.printStackTrace();
+
+                    System.out.println("El mensaje llego dividido.");
+                }
+
+
 
                 buffer.flip();
+                buffer.clear();
+
+            }
+            else {
+                System.out.println("termino de leer");
             }
 
             if (sizeRead == -1){

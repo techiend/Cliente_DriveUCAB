@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="background_login" fx:id="login_panel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" styleClass="background_login" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Registro.Registro_Controller">
+   <children>
+      <Label fx:id="lb_user" layoutY="268.0" prefHeight="25.0" prefWidth="400.0" text="Correo:" textFill="WHITE" AnchorPane.leftAnchor="0.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <padding>
+            <Insets left="70.0" />
+         </padding>
+      </Label>
+      <TextField fx:id="txt_user" layoutX="80.0" layoutY="294.0" onAction="#validateData" prefHeight="30.0" prefWidth="240.0" promptText="Correo electronico" style="-fx-background-color: transparent; -fx-border-color: #ffffff; -fx-border-width: 0 0 1.5 0;" AnchorPane.leftAnchor="80.0" />
+      <Label fx:id="lb_pass" layoutY="337.0" prefHeight="25.0" prefWidth="400.0" text="Clave:" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="337.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <padding>
+            <Insets left="70.0" />
+         </padding>
+      </Label>
+      <PasswordField fx:id="txt_pass" accessibleRole="PASSWORD_FIELD" layoutX="80.0" layoutY="362.0" onAction="#validateData" prefHeight="30.0" prefWidth="240.0" promptText="Clave" style="-fx-background-color: transparent; -fx-border-color: #ffffff; -fx-border-width: 0 0 1.5 0;" AnchorPane.leftAnchor="80.0" />
+      <Label fx:id="lb_error" alignment="CENTER" contentDisplay="TOP" graphicTextGap="0.0" layoutY="459.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="400.0" textAlignment="CENTER" textFill="#cd0000" wrapText="true">
+         <font>
+            <Font size="16.0" />
+         </font>
+         <padding>
+            <Insets left="70.0" />
+         </padding>
+      </Label>
+      <Button fx:id="btn_registro" layoutX="100.0" layoutY="540.0" mnemonicParsing="false" onAction="#validateRegister" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-color: #ffffff; -fx-border-radius: 30;" text="Registrarse" textFill="WHITE" />
+      <Label fx:id="lb_pass_conf" layoutY="403.0" prefHeight="25.0" prefWidth="400.0" text="Repetir clave:" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <padding>
+            <Insets left="70.0" />
+         </padding>
+      </Label>
+      <PasswordField fx:id="txt_pass_conf" accessibleRole="PASSWORD_FIELD" layoutX="80.0" layoutY="428.0" onAction="#validateData" prefHeight="30.0" prefWidth="240.0" promptText="Clave" style="-fx-background-color: transparent; -fx-border-color: #ffffff; -fx-border-width: 0 0 1.5 0;" />
+      <Label fx:id="lb_name" layoutY="81.0" prefHeight="25.0" prefWidth="400.0" text="Nombre:" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <padding>
+            <Insets left="70.0" />
+         </padding>
+      </Label>
+      <TextField fx:id="txt_name" layoutX="80.0" layoutY="107.0" onAction="#validateData" prefHeight="30.0" prefWidth="240.0" promptText="Nombre" style="-fx-background-color: transparent; -fx-border-color: #ffffff; -fx-border-width: 0 0 1.5 0;" />
+      <Label fx:id="lb_lname" layoutY="150.0" prefHeight="25.0" prefWidth="400.0" text="Apellido:" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <padding>
+            <Insets left="70.0" />
+         </padding>
+      </Label>
+      <TextField fx:id="txt_lname" layoutX="80.0" layoutY="176.0" onAction="#validateData" prefHeight="30.0" prefWidth="240.0" promptText="Apellido" style="-fx-background-color: transparent; -fx-border-color: #ffffff; -fx-border-width: 0 0 1.5 0;" />
+      <Separator layoutX="44.0" layoutY="244.0" prefHeight="14.0" prefWidth="312.0" />
+      <Label fx:id="lb_error" alignment="CENTER" layoutY="505.0" prefHeight="25.0" prefWidth="400.0" textAlignment="CENTER" textFill="#cd0000">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

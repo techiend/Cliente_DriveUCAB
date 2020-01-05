@@ -10,7 +10,7 @@
 
 <AnchorPane id="background_login" fx:id="login_panel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" styleClass="background_login" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Login.Login_Controller">
    <children>
-      <Button fx:id="btn_login" layoutX="125.0" layoutY="516.0" mnemonicParsing="false" onAction="#validateData" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #ffffff; -fx-border-radius: 30;" text="Iniciar Sesion" textFill="WHITE" />
+      <Button fx:id="btn_login" layoutX="125.0" layoutY="485.0" mnemonicParsing="false" onAction="#validateData" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #ffffff; -fx-border-radius: 30;" text="Iniciar Sesion" textFill="WHITE" />
       <Label fx:id="lb_user" layoutX="50.0" layoutY="300.0" prefHeight="25.0" prefWidth="400.0" text="Correo:" textFill="WHITE" AnchorPane.leftAnchor="0.0">
          <font>
             <Font size="14.0" />
@@ -41,9 +41,7 @@
          <font>
             <Font size="16.0" />
          </font>
-         <padding>
-            <Insets left="70.0" />
-         </padding>
       </Label>
+      <Button fx:id="btn_registro" layoutX="100.0" layoutY="530.0" mnemonicParsing="false" onAction="#validateRegister" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-color: #ffffff; -fx-border-radius: 30;" text="Registrarse" textFill="WHITE" />
    </children>
 </AnchorPane>
