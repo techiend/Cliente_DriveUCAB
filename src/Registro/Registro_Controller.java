@@ -29,7 +29,7 @@ public class Registro_Controller {
 
     }
 
-    public void validateData(ActionEvent actionEvent) {
+    public void validateRegister(ActionEvent actionEvent) {
         try {
             if (
                     !txt_name.getText().trim().equals("") &&

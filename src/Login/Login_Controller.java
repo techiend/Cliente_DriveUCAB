@@ -7,9 +7,14 @@ import Utilidades.ScreenController;
 import Utilidades.Usuario;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 public class Login_Controller {
@@ -18,6 +23,36 @@ public class Login_Controller {
     @FXML private Label lb_error;
     @FXML private TextField txt_user;
     @FXML private PasswordField txt_pass;
+
+    public void setServer_Config(ActionEvent actionEvent){
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getClassLoader().getResource("Config/config.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent p = loader.getRoot();
+        Stage stage = new Stage();
+//        Stage stageP = (Stage) pn_0.getScene().getWindow();
+        Scene scene = new Scene(p);
+        scene.getStylesheets().add("styles/css/backgrounds.css");
+        stage.setScene(scene);
+        stage.showAndWait();
+
+        Runnable runnable = () ->{
+            try {
+
+                Client client = Client.getInstance();
+                client.startClient();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        };
+
+        new Thread(runnable).start();
+    }
 
     public void validateData(ActionEvent actionEvent) {
 
@@ -87,7 +122,7 @@ public class Login_Controller {
     public void validateRegister(ActionEvent actionEvent){
         try {
             ScreenController screenController = new ScreenController();
-            screenController.changeView(actionEvent, "Registro");
+            screenController.changeView(actionEvent, "Register");
         } catch (SceneDontExist sceneDontExist) {
             sceneDontExist.printStackTrace();
         }

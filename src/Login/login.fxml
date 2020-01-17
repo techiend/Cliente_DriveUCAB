@@ -29,7 +29,7 @@
          </padding>
       </Label>
       <PasswordField fx:id="txt_pass" accessibleRole="PASSWORD_FIELD" layoutX="80.0" layoutY="388.0" onAction="#validateData" prefHeight="30.0" prefWidth="240.0" promptText="Clave" style="-fx-background-color: transparent; -fx-border-color: #ffffff; -fx-border-width: 0 0 1.5 0;" text="123456" AnchorPane.leftAnchor="80.0" />
-      <Label fx:id="lb_test" layoutY="98.0" prefHeight="25.0" prefWidth="400.0" textFill="WHITE">
+      <Label fx:id="lb_test" layoutY="157.0" prefHeight="25.0" prefWidth="400.0" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
@@ -43,5 +43,6 @@
          </font>
       </Label>
       <Button fx:id="btn_registro" layoutX="100.0" layoutY="530.0" mnemonicParsing="false" onAction="#validateRegister" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-color: #ffffff; -fx-border-radius: 30;" text="Registrarse" textFill="WHITE" />
+      <Button fx:id="btn_config" layoutX="285.0" layoutY="14.0" mnemonicParsing="false" onAction="#setServer_Config" prefHeight="30.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-color: #ffffff; -fx-border-radius: 30;" text="Configuración" textFill="WHITE" />
    </children>
 </AnchorPane>

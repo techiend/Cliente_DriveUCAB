@@ -27,19 +27,6 @@ public class Login extends Application {
 
     public static void main(String[] args) {
 
-        Runnable runnable = () ->{
-            try {
-
-                Client client = Client.getInstance();
-                client.startClient();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        };
-
-        new Thread(runnable).start();
-
         launch(args);
     }
 
